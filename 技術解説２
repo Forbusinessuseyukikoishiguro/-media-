@@ -1,0 +1,1022 @@
+# レスポンシブデザイン総合練習サイトのコード解説
+
+アップロードしていただいたコードを、HTML、CSS、JavaScriptの各部分に分けて、一行ずつ詳しく解説します。初心者の方にも理解しやすいように、ステップバイステップで説明していきます。
+
+## HTML部分の解説
+
+```html
+<!DOCTYPE html>
+<!-- HTML5の文書型宣言です。ブラウザにこのファイルがHTML5文書であることを伝えます -->
+
+<html lang="ja">
+<!-- HTML文書の開始タグです。lang="ja"は文書の言語が日本語であることを示します -->
+
+<head>
+<!-- ヘッド部分の開始タグです。ここには主にメタ情報やスタイルシート、スクリプトなどが記述されます -->
+
+    <meta charset="UTF-8">
+    <!-- 文字エンコーディングをUTF-8に設定します。日本語を含む多言語を正しく表示するために必要です -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- レスポンシブデザインのための重要な設定です。デバイスの幅に合わせ、初期表示倍率を1.0に設定します -->
+    
+    <title>レスポンシブデザイン総合練習サイト</title>
+    <!-- ブラウザのタブに表示されるタイトルを設定します -->
+    
+    <style>
+    <!-- 内部CSSスタイルシートの開始タグです。このタグ内にCSSを記述します -->
+    
+    /* CSSは別途解説します */
+    
+    </style>
+</head>
+<!-- ヘッド部分の終了タグです -->
+
+<body>
+<!-- ボディ部分の開始タグです。ここに実際にページに表示される内容を記述します -->
+
+    <header>
+    <!-- ヘッダー領域の開始タグです。通常、サイトのロゴやメインナビゲーションなどを配置します -->
+    
+        <h1>レスポンシブデザイン総合練習サイト</h1>
+        <!-- 見出しレベル1のテキストです。ページの主要タイトルを表します -->
+        
+        <p>テキスト折り返し・@mediaクエリ・ボタンサイズ調整を一度に練習できます</p>
+        <!-- 段落要素です。サイトの簡単な説明文を表示します -->
+        
+    </header>
+    <!-- ヘッダー領域の終了タグです -->
+    
+    <nav>
+    <!-- ナビゲーション領域の開始タグです。ページ内の主要な移動リンクを含みます -->
+    
+        <ul>
+        <!-- 順序なしリスト（箇条書き）の開始タグです -->
+        
+            <li><a href="#text-wrap">テキスト折り返し</a></li>
+            <!-- リスト項目です。#text-wrapはページ内リンク（同じページ内のid="text-wrap"の要素に移動します） -->
+            
+            <li><a href="#media-query">@mediaクエリ</a></li>
+            <!-- 同様にページ内リンクです -->
+            
+            <li><a href="#buttons">ボタンサイズ調整</a></li>
+            <!-- 同様にページ内リンクです -->
+            
+        </ul>
+        <!-- 順序なしリストの終了タグです -->
+        
+    </nav>
+    <!-- ナビゲーション領域の終了タグです -->
+    
+    <div class="container">
+    <!-- コンテナdiv要素の開始です。コンテンツを中央揃えにして幅を制限するためのラッパーです -->
+    
+        <div class="device-info">
+        <!-- デバイス情報を表示するための領域です -->
+        
+            <h3>現在の画面情報</h3>
+            <!-- 見出しレベル3のテキストです。このセクションのタイトルを表します -->
+            
+            <p>画面幅: <span id="screen-width">-</span>px</p>
+            <!-- 段落要素とspan要素です。JavaScriptで画面幅の値を動的に更新するためのものです -->
+            
+            <p>デバイスタイプ: <span id="device-type">-</span></p>
+            <!-- 同様に、JavaScriptでデバイスタイプを動的に表示します -->
+            
+            <p>現在適用されている@mediaクエリ: <span id="media-query-status">-</span></p>
+            <!-- 同様に、JavaScriptで現在適用されているメディアクエリを動的に表示します -->
+            
+        </div>
+        <!-- デバイス情報領域の終了タグです -->
+        
+        <div class="tabs">
+        <!-- タブインターフェース全体のコンテナです -->
+        
+            <ul class="tab-list">
+            <!-- タブのヘッダーリストです -->
+            
+                <li class="active" data-tab="tab1">テキスト折り返し</li>
+                <!-- タブボタンです。activeクラスは現在選択中のタブ、data-tab属性は対応するコンテンツのIDを示します -->
+                
+                <li data-tab="tab2">@mediaクエリ</li>
+                <!-- 2つ目のタブボタンです -->
+                
+                <li data-tab="tab3">ボタンサイズ調整</li>
+                <!-- 3つ目のタブボタンです -->
+                
+            </ul>
+            <!-- タブヘッダーリストの終了タグです -->
+            
+            <!-- タブ1: テキスト折り返し -->
+            <div id="tab1" class="tab-content active">
+            <!-- 1つ目のタブコンテンツです。idはタブボタンのdata-tab属性と対応し、activeクラスは表示状態を示します -->
+            
+                <h2 id="text-wrap">①テキスト折り返しの問題と修正</h2>
+                <!-- 見出しレベル2のテキストです。id属性はナビゲーションのアンカーリンクのターゲットとして使われます -->
+                
+                <div class="text-wrap-demo">
+                <!-- テキスト折り返しのデモセクションです -->
+                
+                    <h3>問題: 長い英単語が折り返されない</h3>
+                    <!-- 見出しレベル3のテキストです。このセクションの小見出しを表します -->
+                    
+                    <p>狭いコンテナに長い英単語があると、横にはみ出してしまいます。</p>
+                    <!-- 段落要素です。問題の説明を表示します -->
+                    
+                    <div class="controls">
+                    <!-- コントロールボタンを含む領域です -->
+                    
+                        <button class="toggle-btn" onclick="toggleTextFix()">修正を適用/解除</button>
+                        <!-- ボタン要素です。クリックするとtoggleTextFix()関数が実行され、修正の適用/解除を切り替えます -->
+                        
+                    </div>
+                    <!-- コントロール領域の終了タグです -->
+                    
+                    <h4>問題のあるテキスト:</h4>
+                    <!-- 見出しレベル4のテキストです -->
+                    
+                    <div class="text-container">
+                    <!-- テキスト表示用のコンテナです。幅が制限されており、問題を再現します -->
+                    
+                        <p id="problem-text" class="problematic-text">
+                            This paragraph contains supercalifragilisticexpialidocious words like pneumonoultramicroscopicsilicovolcanoconiosis that are extremely long and might cause layout issues if not properly handled with CSS.
+                        </p>
+                        <!-- 問題のあるテキストを含む段落です。id属性はJavaScriptから参照するため、クラスは問題のあるスタイルを適用するためのものです -->
+                        
+                    </div>
+                    <!-- テキストコンテナの終了タグです -->
+                    
+                    <div class="code-display">
+                    <!-- コードサンプルを表示するための領域です -->
+                    
+                        <h4>解決方法:</h4>
+                        <!-- 見出しレベル4のテキストです -->
+                        
+                        <pre><code>/* テキスト折り返しの修正 */
+.fixed-text {
+    word-wrap: break-word;      /* 単語を折り返せるようにする（古い書き方） */
+    overflow-wrap: break-word;  /* 単語を折り返せるようにする（新しい標準） */
+    word-break: normal;         /* 単語の区切り方のルールを設定 */
+    hyphens: auto;              /* 単語が改行される際にハイフンを追加 */
+}</code></pre>
+                        <!-- preタグは整形済みテキスト、codeタグはコードブロックを表します。CSSの解決方法を表示します -->
+                        
+                    </div>
+                    <!-- コード表示領域の終了タグです -->
+                    
+                </div>
+                <!-- テキスト折り返しデモの終了タグです -->
+                
+            </div>
+            <!-- タブ1コンテンツの終了タグです -->
+            
+            <!-- タブ2: @mediaクエリ -->
+            <div id="tab2" class="tab-content">
+            <!-- 2つ目のタブコンテンツです。activeクラスがないため、初期状態では非表示です -->
+            
+                <h2 id="media-query">②@mediaクエリの実装</h2>
+                <!-- 見出しレベル2のテキストです。id属性はナビゲーションのアンカーリンクのターゲットです -->
+                
+                <div class="media-query-demo">
+                <!-- @mediaクエリのデモセクションです -->
+                
+                    <h3>レスポンシブグリッドレイアウト</h3>
+                    <!-- 見出しレベル3のテキストです -->
+                    
+                    <p>画面サイズに応じて、グリッドのカラム数が変化します。</p>
+                    <!-- 段落要素です。デモの説明を表示します -->
+                    
+                    <div class="responsive-grid">
+                    <!-- レスポンシブグリッドのコンテナです -->
+                    
+                        <div class="grid-item">アイテム1</div>
+                        <!-- グリッドアイテムです -->
+                        
+                        <div class="grid-item">アイテム2</div>
+                        <!-- グリッドアイテムです -->
+                        
+                        <div class="grid-item">アイテム3</div>
+                        <!-- グリッドアイテムです -->
+                        
+                        <div class="grid-item">アイテム4</div>
+                        <!-- グリッドアイテムです -->
+                        
+                        <div class="grid-item">アイテム5</div>
+                        <!-- グリッドアイテムです -->
+                        
+                        <div class="grid-item">アイテム6</div>
+                        <!-- グリッドアイテムです -->
+                        
+                    </div>
+                    <!-- レスポンシブグリッドの終了タグです -->
+                    
+                    <div class="code-display">
+                    <!-- コードサンプルを表示するための領域です -->
+                    
+                        <h4>@mediaクエリの実装:</h4>
+                        <!-- 見出しレベル4のテキストです -->
+                        
+                        <pre><code>/* デスクトップ用のデフォルトスタイル */
+.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3列 */
+    gap: 20px;
+}
+
+/* タブレット用のスタイル */
+@media screen and (max-width: 768px) {
+    .responsive-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2列 */
+    }
+}
+
+/* モバイル用のスタイル */
+@media screen and (max-width: 480px) {
+    .responsive-grid {
+        grid-template-columns: 1fr; /* 1列 */
+    }
+}</code></pre>
+                        <!-- preタグとcodeタグでCSSのサンプルコードを表示します -->
+                        
+                    </div>
+                    <!-- コード表示領域の終了タグです -->
+                    
+                </div>
+                <!-- @mediaクエリデモの終了タグです -->
+                
+            </div>
+            <!-- タブ2コンテンツの終了タグです -->
+            
+            <!-- タブ3: ボタンサイズ調整 -->
+            <div id="tab3" class="tab-content">
+            <!-- 3つ目のタブコンテンツです。初期状態では非表示です -->
+            
+                <h2 id="buttons">③ボタンサイズの調整</h2>
+                <!-- 見出しレベル2のテキストです。id属性はナビゲーションのアンカーリンクのターゲットです -->
+                
+                <div class="button-demo">
+                <!-- ボタンデモのセクションです -->
+                
+                    <h3>レスポンシブボタン</h3>
+                    <!-- 見出しレベル3のテキストです -->
+                    
+                    <p>画面サイズに応じて、ボタンのサイズと配置が変化します。</p>
+                    <!-- 段落要素です。デモの説明を表示します -->
+                    
+                    <div class="button-container">
+                    <!-- ボタンを含むコンテナです -->
+                    
+                        <button class="btn btn-sm">小ボタン</button>
+                        <!-- 小サイズのボタンです。基本クラスbtnと修飾クラスbtn-smを持ちます -->
+                        
+                        <button class="btn">標準ボタン</button>
+                        <!-- 標準サイズのボタンです。基本クラスbtnのみを持ちます -->
+                        
+                        <button class="btn btn-lg">大ボタン</button>
+                        <!-- 大サイズのボタンです。基本クラスbtnと修飾クラスbtn-lgを持ちます -->
+                        
+                    </div>
+                    <!-- ボタンコンテナの終了タグです -->
+                    
+                    <div class="code-display">
+                    <!-- コードサンプルを表示するための領域です -->
+                    
+                        <h4>ボタンサイズ調整の実装:</h4>
+                        <!-- 見出しレベル4のテキストです -->
+                        
+                        <pre><code>/* デスクトップ用のデフォルトスタイル */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.btn-lg {
+    padding: 15px 30px;
+    font-size: 18px;
+}
+
+/* タブレット用のスタイル */
+@media screen and (max-width: 768px) {
+    .btn {
+        padding: 12px 24px;
+        font-size: 18px;
+    }
+    /* 小・大ボタンも同様に拡大 */
+}
+
+/* モバイル用のスタイル */
+@media screen and (max-width: 480px) {
+    .btn, .btn-sm, .btn-lg {
+        width: 100%; /* 幅いっぱい */
+        margin-bottom: 10px;
+    }
+    
+    .button-container {
+        flex-direction: column; /* 縦並びに */
+    }
+}</code></pre>
+                        <!-- preタグとcodeタグでCSSのサンプルコードを表示します -->
+                        
+                    </div>
+                    <!-- コード表示領域の終了タグです -->
+                    
+                </div>
+                <!-- ボタンデモの終了タグです -->
+                
+            </div>
+            <!-- タブ3コンテンツの終了タグです -->
+            
+        </div>
+        <!-- タブインターフェース全体の終了タグです -->
+        
+        <h2>レスポンシブデザインを学ぶためのヒント</h2>
+        <!-- 見出しレベル2のテキストです -->
+        
+        <div class="code-display">
+        <!-- コードサンプルを表示するための領域です -->
+        
+            <h3>レスポンシブデザインの基本原則</h3>
+            <!-- 見出しレベル3のテキストです -->
+            
+            <ol>
+            <!-- 順序ありリスト（番号付きリスト）の開始タグです -->
+            
+                <li><strong>フレキシブルグリッド:</strong> 固定ピクセルではなく、パーセンテージを使用する</li>
+                <!-- リスト項目です。strongタグは太字テキストを表します -->
+                
+                <li><strong>フレキシブルイメージ:</strong> max-width: 100%を使用して画像が親要素からはみ出さないようにする</li>
+                <!-- リスト項目です -->
+                
+                <li><strong>メディアクエリ:</strong> 異なる画面サイズに合わせてレイアウトを調整する</li>
+                <!-- リスト項目です -->
+                
+                <li><strong>モバイルファースト:</strong> 小さい画面用の基本スタイルを最初に定義し、大きな画面用のスタイルを後から追加する</li>
+                <!-- リスト項目です -->
+                
+            </ol>
+            <!-- 順序ありリストの終了タグです -->
+            
+        </div>
+        <!-- コード表示領域の終了タグです -->
+        
+    </div>
+    <!-- コンテナの終了タグです -->
+    
+    <footer>
+    <!-- フッター領域の開始タグです -->
+    
+        <p>レスポンシブデザイン総合練習サイト &copy; 2025</p>
+        <!-- 段落要素です。著作権情報を表示します。&copy;は©記号のHTMLエンティティです -->
+        
+    </footer>
+    <!-- フッター領域の終了タグです -->
+    
+    <script>
+    <!-- JavaScriptコードの開始タグです -->
+    
+    /* JavaScriptは別途解説します */
+    
+    </script>
+    <!-- JavaScriptコードの終了タグです -->
+    
+</body>
+<!-- ボディ部分の終了タグです -->
+
+</html>
+<!-- HTML文書の終了タグです -->
+```
+
+## CSS部分の解説
+
+```css
+* {
+    box-sizing: border-box;
+    /* すべての要素に対して、paddingとborderを幅と高さに含めるbox-sizingモデルを適用します */
+    
+    margin: 0;
+    /* すべての要素の外側の余白をゼロにリセットします */
+    
+    padding: 0;
+    /* すべての要素の内側の余白をゼロにリセットします */
+    
+    font-family: 'Segoe UI', 'Meiryo', sans-serif;
+    /* フォントファミリーを設定します。最初にSegoe UI、次にMeiryo、最後にsans-serif（ゴシック体）フォントを指定 */
+}
+
+body {
+    background-color: #f5f5f5;
+    /* ページ全体の背景色を薄いグレー(#f5f5f5)に設定します */
+    
+    line-height: 1.6;
+    /* 行の高さを通常の1.6倍に設定します。これにより読みやすさが向上します */
+}
+
+.container {
+    max-width: 1200px;
+    /* コンテナの最大幅を1200ピクセルに制限します */
+    
+    margin: 0 auto;
+    /* 上下のマージンを0、左右のマージンをauto（自動）に設定し、コンテナを中央に配置します */
+    
+    padding: 20px;
+    /* コンテナの内側に20ピクセルの余白を追加します */
+}
+
+header {
+    background-color: #2c3e50;
+    /* ヘッダーの背景色を濃い青(#2c3e50)に設定します */
+    
+    color: white;
+    /* ヘッダー内のテキスト色を白に設定します */
+    
+    padding: 20px;
+    /* ヘッダーの内側に20ピクセルの余白を追加します */
+    
+    text-align: center;
+    /* ヘッダー内のテキストを中央揃えにします */
+}
+
+nav {
+    background-color: #34495e;
+    /* ナビゲーションバーの背景色を設定します */
+    
+    overflow: hidden;
+    /* 内容がはみ出した場合に隠す設定です。フロートを使用する場合に役立ちます */
+}
+
+nav ul {
+    display: flex;
+    /* flexboxレイアウトを適用し、子要素を横並びにします */
+    
+    list-style-type: none;
+    /* リストマーカー（・など）を非表示にします */
+}
+
+nav li {
+    flex: 1;
+    /* 各リスト項目を等しい幅で自動的に拡大します */
+    
+    text-align: center;
+    /* リスト項目内のテキストを中央揃えにします */
+}
+
+nav a {
+    display: block;
+    /* リンクをブロック要素として表示し、クリック可能な領域を広げます */
+    
+    color: white;
+    /* リンクのテキスト色を白に設定します */
+    
+    text-decoration: none;
+    /* リンクの下線を削除します */
+    
+    padding: 15px;
+    /* リンクの内側に15ピクセルの余白を追加し、クリック領域を広げます */
+}
+
+nav a:hover {
+    background-color: #4a6885;
+    /* リンクにマウスを乗せたときの背景色を設定します */
+}
+
+.tabs {
+    margin-top: 20px;
+    /* タブコンテナの上部に20ピクセルのマージンを追加します */
+    
+    margin-bottom: 20px;
+    /* タブコンテナの下部に20ピクセルのマージンを追加します */
+}
+
+.tab-list {
+    display: flex;
+    /* flexboxレイアウトを適用し、タブを横並びにします */
+    
+    list-style-type: none;
+    /* リストマーカーを非表示にします */
+    
+    border-bottom: 2px solid #3498db;
+    /* タブリストの下部に青い境界線を追加します */
+}
+
+.tab-list li {
+    padding: 10px 20px;
+    /* タブ項目の内側に上下10px、左右20pxの余白を追加します */
+    
+    cursor: pointer;
+    /* マウスポインタをハンドアイコンに変更し、クリック可能であることを示します */
+    
+    background-color: #ecf0f1;
+    /* タブの背景色を薄いグレーに設定します */
+    
+    margin-right: 5px;
+    /* タブ項目の右側に5ピクセルのマージンを追加し、間隔を開けます */
+    
+    border-radius: 5px 5px 0 0;
+    /* タブの上部のみ角を丸くします。順に左上、右上、右下、左下の角の半径を指定します */
+}
+
+.tab-list li.active {
+    background-color: #3498db;
+    /* アクティブなタブの背景色を青に変更します */
+    
+    color: white;
+    /* アクティブなタブのテキスト色を白に変更します */
+}
+
+.tab-content {
+    display: none;
+    /* 初期状態ではタブコンテンツを非表示にします */
+    
+    padding: 20px;
+    /* タブコンテンツの内側に20ピクセルの余白を追加します */
+    
+    background-color: white;
+    /* タブコンテンツの背景色を白に設定します */
+    
+    border-radius: 0 0 5px 5px;
+    /* タブコンテンツの下部のみ角を丸くします */
+    
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    /* タブコンテンツに影を追加します。右に0px、下に2px、ぼかし5pxの半透明の黒い影です */
+}
+
+.tab-content.active {
+    display: block;
+    /* アクティブなタブコンテンツのみ表示します */
+}
+
+/* パート1: テキスト折り返し問題のデモ */
+.text-wrap-demo {
+    margin-bottom: 30px;
+    /* テキスト折り返しデモの下部に30ピクセルのマージンを追加します */
+}
+
+.text-container {
+    width: 300px;
+    /* テキストコンテナの幅を300ピクセルに制限します。これにより長い単語の折り返し問題が顕著になります */
+    
+    border: 1px solid #ccc;
+    /* テキストコンテナに薄いグレーの境界線を追加します */
+    
+    padding: 15px;
+    /* テキストコンテナの内側に15ピクセルの余白を追加します */
+    
+    margin-bottom: 20px;
+    /* テキストコンテナの下部に20ピクセルのマージンを追加します */
+}
+
+.problematic-text {
+    /* 問題のあるテキストのクラスです。特別なスタイルは定義されていないため、ブラウザのデフォルト挙動でテキスト折り返しの問題を示します */
+}
+
+.fixed-text {
+    word-wrap: break-word;
+    /* 長い単語を折り返せるようにします（古い書き方です） */
+    
+    overflow-wrap: break-word;
+    /* 長い単語を折り返せるようにします（新しい標準的な書き方です） */
+    
+    word-break: normal;
+    /* 単語の区切り方のルールを設定します。normalは通常の単語の区切りに従います */
+    
+    hyphens: auto;
+    /* 単語が折り返される場所にハイフンを自動的に追加します */
+}
+
+/* パート2: @mediaクエリのデモ */
+.media-query-demo {
+    margin-bottom: 30px;
+    /* メディアクエリデモの下部に30ピクセルのマージンを追加します */
+}
+
+.responsive-grid {
+    display: grid;
+    /* グリッドレイアウトを使用します */
+    
+    grid-template-columns: repeat(3, 1fr);
+    /* グリッドを3列に分割し、各列を等しい幅(1fr)にします。repeatは繰り返し指定の簡略記法です */
+    
+    gap: 20px;
+    /* グリッドアイテム間の間隔を20ピクセルに設定します */
+    
+    margin-bottom: 20px;
+    /* グリッドの下部に20ピクセルのマージンを追加します */
+}
+
+.grid-item {
+    background-color: #3498db;
+    /* グリッドアイテムの背景色を青に設定します */
+    
+    color: white;
+    /* グリッドアイテムのテキスト色を白に設定します */
+    
+    padding: 20px;
+    /* グリッドアイテムの内側に20ピクセルの余白を追加します */
+    
+    border-radius: 5px;
+    /* グリッドアイテムの角を5ピクセルの半径で丸くします */
+    
+    text-align: center;
+    /* グリッドアイテム内のテキストを中央揃えにします */
+}
+
+/* パート3: ボタンサイズのデモ */
+.button-demo {
+    margin-bottom: 30px;
+    /* ボタンデモの下部に30ピクセルのマージンを追加します */
+}
+
+.button-container {
+    display: flex;
+    /* flexboxレイアウトを適用し、ボタンを横並びにします */
+    
+    flex-wrap: wrap;
+    /* 必要に応じてボタンを折り返します */
+    
+    gap: 10px;
+    /* ボタン間の間隔を10ピクセルに設定します */
+    
+    margin-bottom: 20px;
+    /* ボタンコンテナの下部に20ピクセルのマージンを追加します */
+}
+
+.btn {
+    display: inline-block;
+    /* ボタンをインラインブロック要素として表示します */
+    
+    padding:
+
+
+## CSS部分の解説（続き）
+
+```css
+.btn {
+    display: inline-block;
+    /* ボタンをインラインブロック要素として表示します。幅と高さを持ちながらも横並びに配置できます */
+    
+    padding: 10px 20px;
+    /* ボタンの内側に上下10px、左右20pxの余白を追加します */
+    
+    background-color: #2ecc71;
+    /* ボタンの背景色を緑色に設定します */
+    
+    color: white;
+    /* ボタンのテキスト色を白に設定します */
+    
+    border: none;
+    /* ボタンの境界線を削除します */
+    
+    border-radius: 5px;
+    /* ボタンの角を5ピクセルの半径で丸くします */
+    
+    cursor: pointer;
+    /* マウスポインタをハンドアイコンに変更し、クリック可能であることを示します */
+    
+    font-size: 16px;
+    /* ボタンのフォントサイズを16ピクセルに設定します */
+    
+    text-align: center;
+    /* ボタン内のテキストを中央揃えにします */
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    /* 小さいボタンの内側の余白を小さく設定します */
+    
+    font-size: 14px;
+    /* 小さいボタンのフォントサイズを14ピクセルに設定します */
+}
+
+.btn-lg {
+    padding: 15px 30px;
+    /* 大きいボタンの内側の余白を大きく設定します */
+    
+    font-size: 18px;
+    /* 大きいボタンのフォントサイズを18ピクセルに設定します */
+}
+
+/* 全パート共通のツール */
+.controls {
+    margin-bottom: 20px;
+    /* コントロール領域の下部に20ピクセルのマージンを追加します */
+}
+
+.toggle-btn {
+    padding: 8px 15px;
+    /* トグルボタンの内側に上下8px、左右15pxの余白を追加します */
+    
+    background-color: #9b59b6;
+    /* トグルボタンの背景色を紫色に設定します */
+    
+    color: white;
+    /* トグルボタンのテキスト色を白に設定します */
+    
+    border: none;
+    /* トグルボタンの境界線を削除します */
+    
+    border-radius: 4px;
+    /* トグルボタンの角を4ピクセルの半径で丸くします */
+    
+    cursor: pointer;
+    /* マウスポインタをハンドアイコンに変更し、クリック可能であることを示します */
+    
+    margin-right: 10px;
+    /* トグルボタンの右側に10ピクセルのマージンを追加します */
+}
+
+.toggle-btn:hover {
+    background-color: #8e44ad;
+    /* トグルボタンにマウスを乗せたときの背景色を濃い紫色に変更します */
+}
+
+.code-display {
+    background-color: #f8f9fa;
+    /* コード表示領域の背景色を薄いグレーに設定します */
+    
+    padding: 15px;
+    /* コード表示領域の内側に15ピクセルの余白を追加します */
+    
+    border-radius: 5px;
+    /* コード表示領域の角を5ピクセルの半径で丸くします */
+    
+    border-left: 4px solid #3498db;
+    /* コード表示領域の左側に青い太い境界線を追加し、視覚的に強調します */
+    
+    margin: 20px 0;
+    /* コード表示領域の上下に20ピクセルのマージンを追加します */
+    
+    overflow-x: auto;
+    /* 横方向にコンテンツがはみ出した場合、スクロールバーを表示します */
+}
+
+pre {
+    margin: 0;
+    /* 整形済みテキスト要素のマージンをゼロにリセットします */
+    
+    white-space: pre-wrap;
+    /* 長い行を折り返して表示します */
+}
+
+code {
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+    /* コード要素に等幅フォントを設定します */
+}
+
+.device-info {
+    background-color: #e8f4fc;
+    /* デバイス情報の背景色を薄い青に設定します */
+    
+    padding: 10px;
+    /* デバイス情報の内側に10ピクセルの余白を追加します */
+    
+    border-radius: 4px;
+    /* デバイス情報の角を4ピクセルの半径で丸くします */
+    
+    margin-bottom: 20px;
+    /* デバイス情報の下部に20ピクセルのマージンを追加します */
+}
+
+/* レスポンシブスタイル */
+@media screen and (max-width: 768px) {
+    /* 画面幅が768ピクセル以下の場合に適用されるスタイルです（タブレット向け） */
+    
+    .responsive-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* タブレットサイズではグリッドを2列に変更します */
+    }
+    
+    .tab-list {
+        flex-wrap: wrap;
+        /* タブリストが必要に応じて折り返されるようにします */
+    }
+    
+    .tab-list li {
+        flex-basis: calc(50% - 5px);
+        /* タブリスト項目の幅を約50%に設定します */
+        
+        margin-bottom: 5px;
+        /* タブリスト項目の下部に5ピクセルのマージンを追加します */
+        
+        text-align: center;
+        /* タブリスト項目内のテキストを中央揃えにします */
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        /* タブレットサイズでボタンの内側の余白を大きくします */
+        
+        font-size: 18px;
+        /* タブレットサイズでボタンのフォントサイズを大きくします */
+    }
+    
+    .btn-sm {
+        padding: 8px 16px;
+        /* タブレットサイズで小さいボタンの内側の余白を調整します */
+        
+        font-size: 16px;
+        /* タブレットサイズで小さいボタンのフォントサイズを調整します */
+    }
+    
+    .btn-lg {
+        padding: 16px 32px;
+        /* タブレットサイズで大きいボタンの内側の余白を調整します */
+        
+        font-size: 20px;
+        /* タブレットサイズで大きいボタンのフォントサイズを調整します */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    /* 画面幅が480ピクセル以下の場合に適用されるスタイルです（モバイル向け） */
+    
+    .responsive-grid {
+        grid-template-columns: 1fr;
+        /* モバイルサイズではグリッドを1列に変更します */
+    }
+    
+    .tab-list li {
+        flex-basis: 100%;
+        /* モバイルサイズではタブリスト項目の幅を100%に設定し、1行に1つのタブになるようにします */
+    }
+    
+    .btn, .btn-sm, .btn-lg {
+        width: 100%;
+        /* モバイルサイズでは全てのボタンの幅を100%に設定し、画面幅いっぱいに表示します */
+        
+        margin-bottom: 10px;
+        /* モバイルサイズでは各ボタンの下部に10ピクセルのマージンを追加し、間隔を開けます */
+    }
+    
+    .button-container {
+        flex-direction: column;
+        /* モバイルサイズではボタンコンテナの方向を縦向きに変更し、ボタンを縦に並べます */
+    }
+}
+
+footer {
+    background-color: #2c3e50;
+    /* フッターの背景色をヘッダーと同じ濃い青に設定します */
+    
+    color: white;
+    /* フッター内のテキスト色を白に設定します */
+    
+    text-align: center;
+    /* フッター内のテキストを中央揃えにします */
+    
+    padding: 20px;
+    /* フッターの内側に20ピクセルの余白を追加します */
+    
+    margin-top: 20px;
+    /* フッターの上部に20ピクセルのマージンを追加します */
+}
+```
+
+## JavaScript部分の解説
+
+```javascript
+// タブの切り替え
+document.querySelectorAll('.tab-list li').forEach(tab => {
+    /* querySelectorAll()で.tab-list li（タブリスト内のリスト項目）をすべて選択し、forEach()でそれぞれに関数を適用します */
+    
+    tab.addEventListener('click', function() {
+        /* 各タブにクリックイベントリスナーを追加します。タブがクリックされたときに実行される関数を定義します */
+        
+        // アクティブなタブの切り替え
+        document.querySelectorAll('.tab-list li').forEach(item => {
+            item.classList.remove('active');
+            /* すべてのタブからactiveクラスを削除します */
+        });
+        
+        this.classList.add('active');
+        /* クリックされたタブにactiveクラスを追加します。thisはイベントが発生した要素（クリックされたタブ）を指します */
+        
+        // タブコンテンツの切り替え
+        let tabId = this.getAttribute('data-tab');
+        /* クリックされたタブのdata-tab属性の値を取得します。これがタブコンテンツのIDと一致します */
+        
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+            /* すべてのタブコンテンツからactiveクラスを削除します */
+        });
+        
+        document.getElementById(tabId).classList.add('active');
+        /* tabIdに一致するIDを持つタブコンテンツにactiveクラスを追加し、表示します */
+    });
+});
+
+// テキスト折り返しの修正切り替え
+function toggleTextFix() {
+    /* テキスト折り返しの修正を切り替える関数です */
+    
+    let textElement = document.getElementById('problem-text');
+    /* 問題のあるテキスト要素をIDで取得します */
+    
+    if (textElement.classList.contains('problematic-text')) {
+        /* 現在のクラスがproblematic-textかどうかをチェックします */
+        
+        textElement.classList.remove('problematic-text');
+        /* 問題のあるクラスを削除します */
+        
+        textElement.classList.add('fixed-text');
+        /* 修正済みのクラスを追加します */
+    } else {
+        /* 現在のクラスがfixed-textの場合（else節が実行される） */
+        
+        textElement.classList.remove('fixed-text');
+        /* 修正済みのクラスを削除します */
+        
+        textElement.classList.add('problematic-text');
+        /* 問題のあるクラスを追加します */
+    }
+}
+
+// 画面情報の更新
+function updateScreenInfo() {
+    /* 画面情報を更新する関数です */
+    
+    document.getElementById('screen-width').textContent = window.innerWidth;
+    /* 現在のウィンドウの幅をピクセル単位で取得し、screen-width要素のテキストとして設定します */
+    
+    let deviceType = "デスクトップ";
+    /* デフォルトのデバイスタイプをデスクトップに設定します */
+    
+    let mediaQuery = "なし（デスクトップ表示）";
+    /* デフォルトのメディアクエリ状態を設定します */
+    
+    if (window.innerWidth <= 768) {
+        /* ウィンドウ幅が768ピクセル以下の場合（タブレットサイズ） */
+        
+        deviceType = "タブレット";
+        /* デバイスタイプをタブレットに更新します */
+        
+        mediaQuery = "@media screen and (max-width: 768px)";
+        /* 適用されているメディアクエリを更新します */
+    }
+    
+    if (window.innerWidth <= 480) {
+        /* ウィンドウ幅が480ピクセル以下の場合（モバイルサイズ） */
+        
+        deviceType = "モバイル";
+        /* デバイスタイプをモバイルに更新します */
+        
+        mediaQuery = "@media screen and (max-width: 480px)";
+        /* 適用されているメディアクエリを更新します */
+    }
+    
+    document.getElementById('device-type').textContent = deviceType;
+    /* 判定されたデバイスタイプをdevice-type要素のテキストとして設定します */
+    
+    document.getElementById('media-query-status').textContent = mediaQuery;
+    /* 適用されているメディアクエリをmedia-query-status要素のテキストとして設定します */
+}
+
+// 初期化
+window.onload = function() {
+    /* ページの読み込みが完了したときに実行される関数です */
+    
+    updateScreenInfo();
+    /* 画面情報を初期化時に更新します */
+};
+
+// 画面サイズ変更時
+window.onresize = updateScreenInfo;
+/* ウィンドウのサイズが変更されるたびにupdateScreenInfo関数を実行し、画面情報を更新します */
+```
+
+## まとめ
+
+このレスポンシブデザイン総合練習サイトは、以下の3つの主要な課題を学ぶための優れた教材です：
+
+1. **テキスト折り返し問題と解決方法**
+   - 長い単語が狭いコンテナではみ出す問題
+   - `word-wrap`、`overflow-wrap`、`word-break`、`hyphens`プロパティによる解決方法
+   - 実際に問題を体験し、修正を適用/解除して違いを確認できる
+
+2. **@mediaクエリによるレスポンシブグリッド**
+   - 画面サイズに応じて列数が変化するグリッドレイアウト
+   - デスクトップ（3列）、タブレット（2列）、モバイル（1列）の3段階の表示
+   - 実際の画面サイズ変更による動作確認
+
+3. **レスポンシブなボタンサイズ調整**
+   - 画面サイズに応じたボタンサイズの最適化
+   - モバイル表示では幅100%の縦並びレイアウトに変更
+   - タップしやすさを考慮したパディングとフォントサイズの調整
+
+このサイトは、JavaScriptを活用して現在の画面情報（幅、デバイスタイプ、適用中のメディアクエリ）をリアルタイムで表示する機能も備えており、ブラウザサイズを変更しながらレスポンシブデザインの動作を視覚的に確認できます。
+
+また、タブインターフェースを実装することで、限られたスペースでも多くの情報を整理して表示する方法も学べます。
+
+初心者の方がレスポンシブデザインを学ぶ際のポイント：
+
+1. **モバイルファースト設計**を意識する
+2. **フレックスボックス**や**グリッドレイアウト**を活用する
+3. **適切なブレイクポイント**を設定する（典型的には480px、768px、1024px）
+4. **ビューポートの設定**を忘れない（`<meta name="viewport" content="width=device-width, initial-scale=1.0">"`）
+5. 単位は固定ピクセルではなく**パーセンテージやem、remなどの相対単位**を使用する
+
+このサイトのコードを理解し、実際に変更を加えながら実験することで、レスポンシブデザインの基礎を効果的に学ぶことができます。
