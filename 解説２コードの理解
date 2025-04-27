@@ -1,0 +1,600 @@
+# レスポンシブデザイン総合練習サイトの HTML/CSS 解説
+
+アップロードしていただいたコードを一行ずつ詳しく解説します。このサイトは、テキスト折り返し問題、@mediaクエリ、ボタンサイズ調整のデモを含む総合的なレスポンシブデザイン学習用のページです。
+
+## HTML の解説
+
+```html
+<!DOCTYPE html>
+```
+HTML5の文書型宣言です。ブラウザにこれがHTML5文書であることを伝えます。
+
+```html
+<html lang="ja">
+```
+HTML文書の開始タグで、`lang="ja"`属性は文書の言語が日本語であることを示します。
+
+```html
+<head>
+```
+HTML文書のヘッド部分の開始です。メタデータや外部リソースの読み込みを定義します。
+
+```html
+<meta charset="UTF-8">
+```
+文字エンコーディングをUTF-8に設定し、日本語などの多言語を正しく表示できるようにします。
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+レスポンシブデザインに重要なビューポート設定です。デバイスの幅に合わせ、初期ズームレベルを1.0に設定します。
+
+```html
+<title>レスポンシブデザイン総合練習サイト</title>
+```
+ブラウザのタブやブックマークに表示されるページタイトルを設定します。
+
+```html
+<style>
+```
+内部CSSスタイルシートの開始です。このタグ内にCSSルールを記述します。
+
+```html
+</head>
+```
+ヘッド部分の終了タグです。
+
+```html
+<body>
+```
+HTML文書の本文開始です。ユーザーに表示される内容はここに記述します。
+
+```html
+<header>
+```
+ページのヘッダー部分の開始です。通常、サイトのロゴやタイトル、主要なナビゲーションを含みます。
+
+```html
+<h1>レスポンシブデザイン総合練習サイト</h1>
+```
+見出しレベル1のテキストです。ページの主要タイトルを表します。
+
+```html
+<p>テキスト折り返し・@mediaクエリ・ボタンサイズ調整を一度に練習できます</p>
+```
+段落要素で、サイトの簡単な説明文を表示します。
+
+```html
+</header>
+```
+ヘッダー部分の終了タグです。
+
+```html
+<nav>
+```
+ナビゲーション部分の開始です。サイト内の主要なリンクを含みます。
+
+```html
+<ul>
+```
+順序なしリスト（箇条書き）の開始です。ナビゲーションリンクのリストに使用されています。
+
+```html
+<li><a href="#text-wrap">テキスト折り返し</a></li>
+```
+リストアイテムと、ページ内リンク（アンカーリンク）です。`#text-wrap`はページ内の特定のID要素へのリンクを示します。
+
+```html
+</ul>
+</nav>
+```
+リストとナビゲーション部分の終了タグです。
+
+```html
+<div class="container">
+```
+コンテンツをグループ化するためのコンテナdiv要素です。最大幅を制限し、中央揃えにするためのスタイルが適用されています。
+
+```html
+<div class="device-info">
+```
+デバイス情報を表示するためのセクションの開始です。
+
+```html
+<h3>現在の画面情報</h3>
+```
+見出しレベル3で、このセクションのタイトルを示します。
+
+```html
+<p>画面幅: <span id="screen-width">-</span>px</p>
+```
+段落内にspanタグがあり、JavaScriptで動的に現在の画面幅を表示するためのものです。`id`属性はJavaScriptから要素を特定するために使用されます。
+
+```html
+<div class="tabs">
+```
+タブインターフェースのコンテナです。
+
+```html
+<ul class="tab-list">
+```
+タブのヘッダーリストです。タブの切り替えボタンを含みます。
+
+```html
+<li class="active" data-tab="tab1">テキスト折り返し</li>
+```
+タブボタンです。`active`クラスは現在選択されているタブを示し、`data-tab`属性はこのタブが制御するコンテンツの識別子です。
+
+```html
+<div id="tab1" class="tab-content active">
+```
+タブの内容を含むコンテナです。`id`はタブボタンの`data-tab`属性と対応し、`active`クラスは表示状態を示します。
+
+```html
+<h2 id="text-wrap">①テキスト折り返しの問題と修正</h2>
+```
+このタブの見出しで、`id`属性はナビゲーションリンクのターゲットとして使用されます。
+
+```html
+<div class="controls">
+```
+コントロールボタンを含むコンテナです。
+
+```html
+<button class="toggle-btn" onclick="toggleTextFix()">修正を適用/解除</button>
+```
+ボタン要素で、クリックすると`toggleTextFix()`というJavaScript関数を実行します。これはテキスト修正の表示/非表示を切り替えます。
+
+```html
+<div class="text-container">
+```
+テキスト表示用の制限された幅のコンテナです。
+
+```html
+<p id="problem-text" class="problematic-text">
+```
+問題のあるテキストを含む段落です。JavaScriptによってクラスが切り替えられ、修正前/後の状態が表示されます。
+
+```html
+<div class="code-display">
+```
+コードサンプルを表示するためのスタイル付きコンテナです。
+
+```html
+<pre><code>/* テキスト折り返しの修正 */
+.fixed-text {
+    word-wrap: break-word;      /* 単語を折り返せるようにする（古い書き方） */
+    overflow-wrap: break-word;  /* 単語を折り返せるようにする（新しい標準） */
+    word-break: normal;         /* 単語の区切り方のルールを設定 */
+    hyphens: auto;              /* 単語が改行される際にハイフンを追加 */
+}</code></pre>
+```
+整形済みテキスト内にコードブロックがあり、CSSのサンプルコードを表示します。`pre`タグは空白や改行をそのまま保持します。
+
+```html
+<div class="responsive-grid">
+```
+レスポンシブグリッドレイアウトのコンテナです。
+
+```html
+<div class="grid-item">アイテム1</div>
+```
+グリッド内の個々のアイテムです。
+
+```html
+<div class="button-container">
+```
+ボタンのグループを含むフレックスコンテナです。
+
+```html
+<button class="btn btn-sm">小ボタン</button>
+```
+小サイズのボタンで、基本クラス`btn`と修飾クラス`btn-sm`を持ちます。
+
+```html
+<footer>
+```
+ページのフッター部分の開始です。著作権情報などの補足情報を含みます。
+
+```html
+<script>
+```
+JavaScript コードの開始です。インタラクティブな機能を実装します。
+
+```javascript
+document.querySelectorAll('.tab-list li').forEach(tab => {
+```
+タブリスト内のすべてのリスト項目を選択し、各項目に対して関数を実行します。
+
+```javascript
+tab.addEventListener('click', function() {
+```
+各タブにクリックイベントリスナーを追加します。タブがクリックされたときに関数が実行されます。
+
+```javascript
+function toggleTextFix() {
+```
+テキスト修正の表示/非表示を切り替えるJavaScript関数の定義です。
+
+```javascript
+function updateScreenInfo() {
+```
+画面情報を更新するための関数定義です。
+
+```javascript
+document.getElementById('screen-width').textContent = window.innerWidth;
+```
+現在のウィンドウ幅を取得し、指定された要素のテキスト内容として設定します。
+
+```javascript
+window.onload = function() {
+```
+ページの読み込みが完了したときに実行される関数を定義します。
+
+```javascript
+window.onresize = updateScreenInfo;
+```
+ウィンドウのサイズが変更されたときに`updateScreenInfo`関数を実行するよう設定します。
+
+## CSS の解説
+
+```css
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Meiryo', sans-serif;
+}
+```
+すべての要素に適用されるユニバーサルセレクタです。ボックスモデルを`border-box`に設定し、マージンとパディングをリセットし、フォントファミリーを指定します。
+
+```css
+body {
+    background-color: #f5f5f5;
+    line-height: 1.6;
+}
+```
+ページ全体の背景色と行の高さを設定します。
+
+```css
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+```
+コンテンツの最大幅を制限し、左右のマージンを`auto`にすることでコンテナを中央揃えにします。
+
+```css
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+```
+ヘッダーの背景色、テキスト色、内部の余白、テキスト配置を設定します。
+
+```css
+nav {
+    background-color: #34495e;
+    overflow: hidden;
+}
+```
+ナビゲーションバーの背景色を設定し、`overflow: hidden`で内部の浮動要素を含めます。
+
+```css
+nav ul {
+    display: flex;
+    list-style-type: none;
+}
+```
+ナビゲーションリストにフレックスボックスレイアウトを適用し、リストマーカーを削除します。
+
+```css
+nav li {
+    flex: 1;
+    text-align: center;
+}
+```
+ナビアイテムを等しい幅で配置し（`flex: 1`）、テキストを中央揃えにします。
+
+```css
+nav a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+}
+```
+ナビリンクをブロック要素として表示し、色、下線の削除、内部の余白を設定します。
+
+```css
+nav a:hover {
+    background-color: #4a6885;
+}
+```
+ナビリンクにマウスオーバーしたときの背景色を変更します。
+
+```css
+.tabs {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+```
+タブコンテナの上下のマージンを設定します。
+
+```css
+.tab-list {
+    display: flex;
+    list-style-type: none;
+    border-bottom: 2px solid #3498db;
+}
+```
+タブリストにフレックスボックスレイアウトを適用し、リストマーカーを削除し、下部に境界線を追加します。
+
+```css
+.tab-list li {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #ecf0f1;
+    margin-right: 5px;
+    border-radius: 5px 5px 0 0;
+}
+```
+タブリスト項目のパディング、カーソルスタイル、背景色、マージン、角丸（上部のみ）を設定します。
+
+```css
+.tab-list li.active {
+    background-color: #3498db;
+    color: white;
+}
+```
+アクティブなタブの背景色とテキスト色を変更します。
+
+```css
+.tab-content {
+    display: none;
+    padding: 20px;
+    background-color: white;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+```
+タブコンテンツの初期状態を非表示に設定し、パディング、背景色、角丸（下部のみ）、影を追加します。
+
+```css
+.tab-content.active {
+    display: block;
+}
+```
+アクティブなタブコンテンツを表示します。
+
+```css
+.text-wrap-demo {
+    margin-bottom: 30px;
+}
+```
+テキスト折り返しデモセクションの下部マージンを設定します。
+
+```css
+.text-container {
+    width: 300px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+```
+テキストコンテナの幅、境界線、パディング、マージンを設定します。幅を制限することで、長い単語の折り返し問題を示します。
+
+```css
+.problematic-text {
+    /* 問題のあるスタイル - 特別な設定なし */
+}
+```
+特別なスタイルを適用せず、ブラウザのデフォルト動作で問題を示すためのクラスです。
+
+```css
+.fixed-text {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: auto;
+}
+```
+長い単語の折り返し問題を解決するためのスタイルです。複数のプロパティを使って互換性を確保しています。
+
+```css
+.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+```
+グリッドレイアウトを設定し、3列の等幅カラム、間隔、マージンを指定します。
+
+```css
+.grid-item {
+    background-color: #3498db;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+```
+グリッドアイテムの背景色、テキスト色、パディング、角丸、テキスト配置を設定します。
+
+```css
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+```
+ボタンコンテナにフレックスボックスレイアウトを適用し、折り返し、間隔、マージンを設定します。
+
+```css
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+}
+```
+基本ボタンスタイルを設定します。表示方法、パディング、背景色、テキスト色、境界線、角丸、カーソル、フォントサイズ、テキスト配置を指定します。
+
+```css
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+```
+小サイズボタンのパディングとフォントサイズを変更します。
+
+```css
+.btn-lg {
+    padding: 15px 30px;
+    font-size: 18px;
+}
+```
+大サイズボタンのパディングとフォントサイズを変更します。
+
+```css
+.controls {
+    margin-bottom: 20px;
+}
+```
+コントロールセクションの下部マージンを設定します。
+
+```css
+.toggle-btn {
+    padding: 8px 15px;
+    background-color: #9b59b6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+```
+トグルボタンのスタイルを設定します。パディング、背景色、テキスト色、境界線、角丸、カーソル、マージンを指定します。
+
+```css
+.code-display {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid #3498db;
+    margin: 20px 0;
+    overflow-x: auto;
+}
+```
+コード表示エリアのスタイルを設定します。背景色、パディング、角丸、左側の強調境界線、マージン、横方向のスクロールを指定します。
+
+```css
+pre {
+    margin: 0;
+    white-space: pre-wrap;
+}
+```
+整形済みテキスト要素のマージンをリセットし、長い行を折り返すように設定します。
+
+```css
+code {
+    font-family: Consolas, Monaco, 'Andale Mono', monospace;
+}
+```
+コード要素に等幅フォントを設定します。
+
+```css
+.device-info {
+    background-color: #e8f4fc;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+```
+デバイス情報表示エリアのスタイルを設定します。背景色、パディング、角丸、マージンを指定します。
+
+```css
+@media screen and (max-width: 768px) {
+    /* タブレット用のスタイル */
+}
+```
+画面幅が768px以下の場合（タブレットサイズ）に適用されるメディアクエリです。
+
+```css
+.responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+```
+タブレットサイズでグリッドを2列に変更します。
+
+```css
+.tab-list {
+    flex-wrap: wrap;
+}
+```
+タブリストを折り返し可能にします。
+
+```css
+.tab-list li {
+    flex-basis: calc(50% - 5px);
+    margin-bottom: 5px;
+    text-align: center;
+}
+```
+タブリスト項目の幅を約50%に設定し、下部マージンを追加し、テキストを中央揃えにします。
+
+```css
+.btn {
+    padding: 12px 24px;
+    font-size: 18px;
+}
+```
+タブレットサイズでボタンのパディングとフォントサイズを大きくします。
+
+```css
+@media screen and (max-width: 480px) {
+    /* モバイル用のスタイル */
+}
+```
+画面幅が480px以下の場合（モバイルサイズ）に適用されるメディアクエリです。
+
+```css
+.responsive-grid {
+    grid-template-columns: 1fr;
+}
+```
+モバイルサイズでグリッドを1列に変更します。
+
+```css
+.tab-list li {
+    flex-basis: 100%;
+}
+```
+モバイルサイズでタブリスト項目を幅100%（1行に1項目）に設定します。
+
+```css
+.btn, .btn-sm, .btn-lg {
+    width: 100%;
+    margin-bottom: 10px;
+}
+```
+モバイルサイズですべてのボタンを幅100%に設定し、下部マージンを追加します。
+
+```css
+.button-container {
+    flex-direction: column;
+}
+```
+モバイルサイズでボタンコンテナの方向を縦方向に変更します。
+
+このコードは、レスポンシブデザインの3つの主要な側面（テキスト折り返し、メディアクエリ、ボタンサイズ調整）を実践的に示すための総合的なデモサイトです。JavaScriptを使ったインタラクティブな要素と、画面サイズの変更に応じたリアルタイムの情報表示も含まれています。
