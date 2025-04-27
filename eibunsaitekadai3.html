@@ -1,52 +1,359 @@
-お役に立てます！①長文テキストの折り返し、②@mediaクエリ、③ボタンサイズのレスポンシブ対応を一度に練習できる総合的なデモサイトを作成します。
-
-# レスポンシブデザイン総合練習サイトの使い方ガイド
-
-作成したデモサイトは、レスポンシブデザインに関する3つの重要な課題を同時に学べる実践的な教材です。画面サイズを変更することで、様々なデバイス環境でのウェブデザインの挙動を確認できます。
-
-## デモサイトの特徴
-
-このサイトは3つの主要な学習コンテンツを含んでいます：
-
-1. **テキスト折り返しの問題と修正**
-2. **@mediaクエリを使ったレスポンシブグリッド**
-3. **画面サイズに合わせたボタンサイズ調整**
-
-さらに、リアルタイムで画面幅を表示し、現在適用されている@mediaクエリも確認できる機能があります。
-
-## 各機能の詳細と練習方法
-
-### ①テキスト折り返しの問題と修正
-
-**問題点**：
-長い英単語（例：supercalifragilisticexpialidocious）が狭いコンテナ内で正しく折り返されず、レイアウトが崩れます。
-
-**修正方法**：
-```css
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レスポンシブデザイン総合練習サイト</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Meiryo', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #34495e;
+            overflow: hidden;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style-type: none;
+        }
+        
+        nav li {
+            flex: 1;
+            text-align: center;
+        }
+        
+        nav a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+        }
+        
+        nav a:hover {
+            background-color: #4a6885;
+        }
+        
+        .tabs {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .tab-list {
+            display: flex;
+            list-style-type: none;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .tab-list li {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #ecf0f1;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .tab-list li.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* パート1: テキスト折り返し問題のデモ */
+        .text-wrap-demo {
+            margin-bottom: 30px;
+        }
+        
+        .text-container {
+            width: 300px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .problematic-text {
+            /* 問題のあるスタイル - 特別な設定なし */
+        }
+        
+        .fixed-text {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: normal;
+            hyphens: auto;
+        }
+        
+        /* パート2: @mediaクエリのデモ */
+        .media-query-demo {
+            margin-bottom: 30px;
+        }
+        
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .grid-item {
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        /* パート3: ボタンサイズのデモ */
+        .button-demo {
+            margin-bottom: 30px;
+        }
+        
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        
+        .btn-lg {
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+        
+        /* 全パート共通のツール */
+        .controls {
+            margin-bottom: 20px;
+        }
+        
+        .toggle-btn {
+            padding: 8px 15px;
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .toggle-btn:hover {
+            background-color: #8e44ad;
+        }
+        
+        .code-display {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+        
+        .device-info {
+            background-color: #e8f4fc;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        /* レスポンシブスタイル */
+        @media screen and (max-width: 768px) {
+            .responsive-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .tab-list {
+                flex-wrap: wrap;
+            }
+            
+            .tab-list li {
+                flex-basis: calc(50% - 5px);
+                margin-bottom: 5px;
+                text-align: center;
+            }
+            
+            .btn {
+                padding: 12px 24px;
+                font-size: 18px;
+            }
+            
+            .btn-sm {
+                padding: 8px 16px;
+                font-size: 16px;
+            }
+            
+            .btn-lg {
+                padding: 16px 32px;
+                font-size: 20px;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .responsive-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-list li {
+                flex-basis: 100%;
+            }
+            
+            .btn, .btn-sm, .btn-lg {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .button-container {
+                flex-direction: column;
+            }
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>レスポンシブデザイン総合練習サイト</h1>
+        <p>テキスト折り返し・@mediaクエリ・ボタンサイズ調整を一度に練習できます</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#text-wrap">テキスト折り返し</a></li>
+            <li><a href="#media-query">@mediaクエリ</a></li>
+            <li><a href="#buttons">ボタンサイズ調整</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <div class="device-info">
+            <h3>現在の画面情報</h3>
+            <p>画面幅: <span id="screen-width">-</span>px</p>
+            <p>デバイスタイプ: <span id="device-type">-</span></p>
+            <p>現在適用されている@mediaクエリ: <span id="media-query-status">-</span></p>
+        </div>
+        
+        <div class="tabs">
+            <ul class="tab-list">
+                <li class="active" data-tab="tab1">テキスト折り返し</li>
+                <li data-tab="tab2">@mediaクエリ</li>
+                <li data-tab="tab3">ボタンサイズ調整</li>
+            </ul>
+            
+            <!-- タブ1: テキスト折り返し -->
+            <div id="tab1" class="tab-content active">
+                <h2 id="text-wrap">①テキスト折り返しの問題と修正</h2>
+                
+                <div class="text-wrap-demo">
+                    <h3>問題: 長い英単語が折り返されない</h3>
+                    <p>狭いコンテナに長い英単語があると、横にはみ出してしまいます。</p>
+                    
+                    <div class="controls">
+                        <button class="toggle-btn" onclick="toggleTextFix()">修正を適用/解除</button>
+                    </div>
+                    
+                    <h4>問題のあるテキスト:</h4>
+                    <div class="text-container">
+                        <p id="problem-text" class="problematic-text">
+                            This paragraph contains supercalifragilisticexpialidocious words like pneumonoultramicroscopicsilicovolcanoconiosis that are extremely long and might cause layout issues if not properly handled with CSS.
+                        </p>
+                    </div>
+                    
+                    <div class="code-display">
+                        <h4>解決方法:</h4>
+                        <pre><code>/* テキスト折り返しの修正 */
 .fixed-text {
     word-wrap: break-word;      /* 単語を折り返せるようにする（古い書き方） */
     overflow-wrap: break-word;  /* 単語を折り返せるようにする（新しい標準） */
     word-break: normal;         /* 単語の区切り方のルールを設定 */
     hyphens: auto;              /* 単語が改行される際にハイフンを追加 */
-}
-```
-
-**練習方法**：
-1. 「修正を適用/解除」ボタンをクリックして、修正前と修正後の違いを確認
-2. ブラウザの幅を変更して、異なる幅での挙動を観察
-3. デベロッパーツールを使って、CSSプロパティを1つずつ無効にして効果を確認
-
-### ②@mediaクエリの実装
-
-**特徴**：
-画面サイズに応じてグリッドレイアウトのカラム数が変化します：
-- デスクトップ：3列
-- タブレット：2列
-- モバイル：1列
-
-**実装方法**：
-```css
-/* デスクトップ用のデフォルトスタイル */
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- タブ2: @mediaクエリ -->
+            <div id="tab2" class="tab-content">
+                <h2 id="media-query">②@mediaクエリの実装</h2>
+                
+                <div class="media-query-demo">
+                    <h3>レスポンシブグリッドレイアウト</h3>
+                    <p>画面サイズに応じて、グリッドのカラム数が変化します。</p>
+                    
+                    <div class="responsive-grid">
+                        <div class="grid-item">アイテム1</div>
+                        <div class="grid-item">アイテム2</div>
+                        <div class="grid-item">アイテム3</div>
+                        <div class="grid-item">アイテム4</div>
+                        <div class="grid-item">アイテム5</div>
+                        <div class="grid-item">アイテム6</div>
+                    </div>
+                    
+                    <div class="code-display">
+                        <h4>@mediaクエリの実装:</h4>
+                        <pre><code>/* デスクトップ用のデフォルトスタイル */
 .responsive-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3列 */
@@ -65,24 +372,52 @@
     .responsive-grid {
         grid-template-columns: 1fr; /* 1列 */
     }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- タブ3: ボタンサイズ調整 -->
+            <div id="tab3" class="tab-content">
+                <h2 id="buttons">③ボタンサイズの調整</h2>
+                
+                <div class="button-demo">
+                    <h3>レスポンシブボタン</h3>
+                    <p>画面サイズに応じて、ボタンのサイズと配置が変化します。</p>
+                    
+                    <div class="button-container">
+                        <button class="btn btn-sm">小ボタン</button>
+                        <button class="btn">標準ボタン</button>
+                        <button class="btn btn-lg">大ボタン</button>
+                    </div>
+                    
+                    <div class="code-display">
+                        <h4>ボタンサイズ調整の実装:</h4>
+                        <pre><code>/* デスクトップ用のデフォルトスタイル */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
 }
-```
 
-**練習方法**：
-1. ブラウザのサイズを変更しながら、グリッドレイアウトの変化を観察
-2. 画面上部の「現在の画面情報」で、現在適用されている@mediaクエリを確認
-3. デベロッパーツールを使って@mediaクエリの値を変更し、異なるブレイクポイントを試す
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 14px;
+}
 
-### ③ボタンサイズの調整
+.btn-lg {
+    padding: 15px 30px;
+    font-size: 18px;
+}
 
-**特徴**：
-画面サイズに応じてボタンのサイズと配置が変化します：
-- デスクトップ：横並びの適度なサイズ
-- タブレット：やや大きめのボタン（タップしやすく）
-- モバイル：幅いっぱいに広がり、縦に並ぶ
+/* タブレット用のスタイル */
+@media screen and (max-width: 768px) {
+    .btn {
+        padding: 12px 24px;
+        font-size: 18px;
+    }
+    /* 小・大ボタンも同様に拡大 */
+}
 
-**実装方法**：
-```css
 /* モバイル用のスタイル */
 @media screen and (max-width: 480px) {
     .btn, .btn-sm, .btn-lg {
@@ -93,36 +428,88 @@
     .button-container {
         flex-direction: column; /* 縦並びに */
     }
-}
-```
-
-**練習方法**：
-1. ブラウザのサイズを変更して、ボタンのレイアウトとサイズの変化を観察
-2. デベロッパーツールでCSSを編集し、異なるパディングやフォントサイズを試す
-3. 新しいボタンスタイルを追加して動作を確認する
-
-## 実用的な修正練習アイデア
-
-このデモサイトを使って、以下の修正にも挑戦してみてください：
-
-1. **テキスト折り返しの改良**：
-   - `text-overflow: ellipsis`と`white-space: nowrap`を組み合わせて、テキストが長すぎる場合に「...」で省略表示する
-   - 複数行での省略表示を実装する
-
-2. **@mediaクエリの拡張**：
-   - 印刷用のメディアクエリ（`@media print`）を追加
-   - 画面の向き（横向き/縦向き）に応じたスタイル調整（`@media (orientation: landscape)`）
-
-3. **ボタンの高度なレスポンシブ対応**：
-   - ホバーエフェクトをデスクトップのみに適用（タッチデバイスでは不要）
-   - 画面サイズに応じてボタンのアイコンサイズも調整
-
-## まとめ
-
-このデモサイトを通じて、以下のレスポンシブデザインの基本スキルを習得できます：
-
-1. 長いテキストや単語の適切な折り返し処理
-2. 異なる画面サイズに対応するためのメディアクエリの実装
-3. タッチフレンドリーなボタンサイズの調整
-
-実際のウェブサイト制作では、これらの技術を組み合わせて、あらゆるデバイスで最適な表示を実現しましょう。デベロッパーツールのデバイスエミュレーション機能を使って、様々なデバイスでのテストも忘れずに行ってください。
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>レスポンシブデザインを学ぶためのヒント</h2>
+        
+        <div class="code-display">
+            <h3>レスポンシブデザインの基本原則</h3>
+            <ol>
+                <li><strong>フレキシブルグリッド:</strong> 固定ピクセルではなく、パーセンテージを使用する</li>
+                <li><strong>フレキシブルイメージ:</strong> max-width: 100%を使用して画像が親要素からはみ出さないようにする</li>
+                <li><strong>メディアクエリ:</strong> 異なる画面サイズに合わせてレイアウトを調整する</li>
+                <li><strong>モバイルファースト:</strong> 小さい画面用の基本スタイルを最初に定義し、大きな画面用のスタイルを後から追加する</li>
+            </ol>
+        </div>
+    </div>
+    
+    <footer>
+        <p>レスポンシブデザイン総合練習サイト &copy; 2025</p>
+    </footer>
+    
+    <script>
+        // タブの切り替え
+        document.querySelectorAll('.tab-list li').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // アクティブなタブの切り替え
+                document.querySelectorAll('.tab-list li').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // タブコンテンツの切り替え
+                let tabId = this.getAttribute('data-tab');
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // テキスト折り返しの修正切り替え
+        function toggleTextFix() {
+            let textElement = document.getElementById('problem-text');
+            if (textElement.classList.contains('problematic-text')) {
+                textElement.classList.remove('problematic-text');
+                textElement.classList.add('fixed-text');
+            } else {
+                textElement.classList.remove('fixed-text');
+                textElement.classList.add('problematic-text');
+            }
+        }
+        
+        // 画面情報の更新
+        function updateScreenInfo() {
+            document.getElementById('screen-width').textContent = window.innerWidth;
+            
+            let deviceType = "デスクトップ";
+            let mediaQuery = "なし（デスクトップ表示）";
+            
+            if (window.innerWidth <= 768) {
+                deviceType = "タブレット";
+                mediaQuery = "@media screen and (max-width: 768px)";
+            }
+            
+            if (window.innerWidth <= 480) {
+                deviceType = "モバイル";
+                mediaQuery = "@media screen and (max-width: 480px)";
+            }
+            
+            document.getElementById('device-type').textContent = deviceType;
+            document.getElementById('media-query-status').textContent = mediaQuery;
+        }
+        
+        // 初期化
+        window.onload = function() {
+            updateScreenInfo();
+        };
+        
+        // 画面サイズ変更時
+        window.onresize = updateScreenInfo;
+    </script>
+</body>
+</html>
